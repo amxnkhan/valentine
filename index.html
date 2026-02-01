@@ -1,0 +1,177 @@
+#   
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<title>Be My Valentine 💘</title>  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  
+<style>  
+    body {  
+        margin: 0;  
+        height: 100vh;  
+        display: flex;  
+        justify-content: center;  
+        align-items: center;  
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);  
+        font-family: 'Comic Sans MS', cursive;  
+        overflow: hidden;  
+    }  
+  
+    .card {  
+        background: white;  
+        padding: 35px 30px;  
+        border-radius: 25px;  
+        text-align: center;  
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);  
+        animation: pop 0.8s ease;  
+        z-index: 2;  
+        max-width: 90%;  
+    }  
+  
+    @keyframes pop {  
+        0% { transform: scale(0.7); opacity: 0; }  
+        100% { transform: scale(1); opacity: 1; }  
+    }  
+  
+    h1 {  
+        color: #ff3366;  
+        margin-bottom: 25px;  
+        font-size: 28px;  
+    }  
+  
+    .buttons {  
+        position: relative;  
+        width: 280px;  
+        height: 140px;  
+        margin: auto;  
+    }  
+  
+    button {  
+        position: absolute;  
+        padding: 14px 30px;  
+        font-size: 18px;  
+        border: none;  
+        border-radius: 30px;  
+        cursor: pointer;  
+        transition: 0.15s;  
+    }  
+  
+    #yes {  
+        background: #2ecc71;  
+        color: white;  
+        left: 20px;  
+        top: 50px;  
+    }  
+  
+    #no {  
+        background: #ff3b3b;  
+        color: white;  
+        left: 150px;  
+        top: 50px;  
+    }  
+  
+    /* Hearts */  
+    .heart {  
+        position: absolute;  
+        font-size: 20px;  
+        animation: floatUp 6s linear infinite;  
+        pointer-events: none;  
+    }  
+  
+    @keyframes floatUp {  
+        0% { transform: translateY(0); opacity: 0; }  
+        20% { opacity: 1; }  
+        100% { transform: translateY(-100vh); opacity: 0; }  
+    }  
+  
+    /* Desktop block screen */  
+    .desktop-block {  
+        display: none;  
+        text-align: center;  
+        color: white;  
+        font-size: 26px;  
+        padding: 30px;  
+    }  
+</style>  
+</head>  
+  
+<body>  
+  
+<div class="desktop-block" id="desktopBlock">  
+    📱😏<br><br>  
+    Nope nope nope.<br>  
+    This prank works<br>  
+    <b>ONLY on mobile</b>.<br><br>  
+    Send this link to your phone 💘  
+</div>  
+  
+<div class="card" id="card">  
+    <h1>Will you be my Valentine? 💖</h1>  
+    <div class="buttons">  
+        <button id="yes">Yes 💘</button>  
+        <button id="no">No 😏</button>  
+    </div>  
+</div>  
+  
+<!-- Music -->  
+<iframe id="music" width="0" height="0" allow="autoplay"></iframe>  
+  
+<script>  
+    const isMobile = window.innerWidth <= 768;  
+  
+    const card = document.getElementById("card");  
+    const desktopBlock = document.getElementById("desktopBlock");  
+  
+    if (!isMobile) {  
+        card.style.display = "none";  
+        desktopBlock.style.display = "block";  
+        throw new Error("Desktop blocked");  
+    }  
+  
+    const noBtn = document.getElementById("no");  
+    const yesBtn = document.getElementById("yes");  
+    const container = document.querySelector(".buttons");  
+    const music = document.getElementById("music");  
+  
+    function escapeNo() {  
+        const maxX = container.clientWidth - noBtn.clientWidth;  
+        const maxY = container.clientHeight - noBtn.clientHeight;  
+  
+        noBtn.style.left = Math.random() * maxX + "px";  
+        noBtn.style.top = Math.random() * maxY + "px";  
+        noBtn.style.transform = `rotate(${Math.random()*20-10}deg)`;  
+    }  
+  
+    noBtn.addEventListener("touchstart", escapeNo);  
+    noBtn.addEventListener("mouseenter", escapeNo);  
+  
+    yesBtn.addEventListener("click", () => {  
+        music.src = ""https://www.youtube.com/embed/IpFX2vq8HKw?autoplay=1";";  
+  
+        card.innerHTML = `  
+            <h1 style="font-size:38px;">YAYYYY 💖😍</h1>  
+            <p style="font-size:20px;color:#ff4d6d;">  
+                Best choice ever 😘<br>  
+                Happy Valentine’s 💘  
+            </p>  
+        `;  
+  
+        for (let i = 0; i < 50; i++) createHeart();  
+    });  
+  
+    function createHeart() {  
+        const heart = document.createElement("div");  
+        heart.className = "heart";  
+        heart.innerHTML = "💖";  
+        heart.style.left = Math.random() * 100 + "vw";  
+        heart.style.fontSize = Math.random() * 15 + 15 + "px";  
+        document.body.appendChild(heart);  
+        setTimeout(() => heart.remove(), 7000);  
+    }  
+  
+    setInterval(createHeart, 600);  
+</script>  
+  
+</body>  
+</html>  
