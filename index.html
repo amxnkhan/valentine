@@ -1,141 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For Saba 💝</title>
+<meta charset="UTF-8">
+<title>For Saba 💝</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Comic Sans MS", cursive;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+}
 
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      text-align: center;
-      width: 90%;
-      max-width: 350px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      animation: pop 0.8s ease;
-    }
+/* SCREENS */
+.screen {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-    @keyframes pop {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+/* FIRST SCREEN */
+.pikachu img {
+  width: 220px;
+  animation: dance 1.2s infinite;
+}
 
-    h1 {
-      color: #ff4f81;
-      margin-bottom: 20px;
-    }
+@keyframes dance {
+  0% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-10px) rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  75% { transform: translateY(-10px) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
 
-    button {
-      border: none;
-      padding: 15px 25px;
-      font-size: 18px;
-      border-radius: 30px;
-      cursor: pointer;
-      margin: 10px;
-    }
+h1 {
+  color: white;
+  font-size: 26px;
+}
 
-    #yes {
-      background: #3bd671;
-      color: white;
-    }
+span {
+  color: #ff2f6d;
+}
 
-    #no {
-      background: #ff4f4f;
-      color: white;
-      position: relative;
-    }
+.buttons {
+  margin-top: 20px;
+  position: relative;
+}
 
-    .heart {
-      position: fixed;
-      font-size: 24px;
-      animation: floatUp 2s linear forwards;
-    }
+button {
+  padding: 12px 22px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+}
 
-    @keyframes floatUp {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-150px); }
-    }
-  </style>
+.yes-btn {
+  background: #ff2f6d;
+  color: white;
+}
+
+.no-btn {
+  background: #ddd;
+  position: absolute;
+}
+
+/* YES SCREEN */
+.yes-screen {
+  display: none;
+  flex-direction: column;
+}
+
+.yes-screen img {
+  width: 260px;
+  animation: pop 0.8s ease-out;
+}
+
+@keyframes pop {
+  from { transform: scale(0.2); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* HEART EXPLOSION SCREEN */
+.heart-screen {
+  display: none;
+  flex-direction: column;
+}
+
+.heart-screen img {
+  width: 220px;
+  animation: explode 0.8s ease-out;
+}
+
+@keyframes explode {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1.3); opacity: 1; }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="card" id="card">
-    <h1>Will you be my Valentine, Saba? 💝</h1>
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 😏</button>
+<!-- MAIN SCREEN -->
+<div class="screen" id="mainScreen">
+  <div class="pikachu">
+    <img src="pikachu.png">
+    <h1>Will chu be my Valentine, <span>Saba 💝</span>?</h1>
+
+    <div class="buttons">
+      <button class="yes-btn" onclick="yesClicked()">Yes 💖</button>
+      <button class="no-btn" id="noBtn" onclick="noClicked()">No 😢</button>
+    </div>
   </div>
+</div>
+
+<!-- YES SCREEN -->
+<div class="screen yes-screen" id="yesScreen">
+  <img src="yes.png">
+  <h1>Yayyy 💕 I knew it!</h1>
+</div>
+
+<!-- HEART EXPLOSION -->
+<div class="screen heart-screen" id="heartScreen">
+  <img src="heart.png">
+  <h1>Try again 😜</h1>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-  const yesBtn = document.getElementById("yes");
-  const noBtn = document.getElementById("no");
-  const card = document.getElementById("card");
+let noCount = 0;
 
-  function teleportNo() {
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
+function yesClicked() {
+  document.getElementById("mainScreen").style.display = "none";
+  document.getElementById("yesScreen").style.display = "flex";
 
-    noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.5;
+  music.play();
+}
 
-    if (navigator.vibrate) navigator.vibrate(80);
+function noClicked() {
+  noCount++;
+
+  const noBtn = document.getElementById("noBtn");
+
+  if (noCount < 3) {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  } else {
+    noBtn.style.display = "none";
+    showHeartExplosion();
   }
+}
 
-  // Make NO impossible 😈 (mobile + desktop)
-  noBtn.addEventListener("touchstart", teleportNo);
-  noBtn.addEventListener("touchmove", teleportNo);
-  noBtn.addEventListener("mouseover", teleportNo);
+function showHeartExplosion() {
+  document.getElementById("mainScreen").style.display = "none";
+  document.getElementById("heartScreen").style.display = "flex";
 
-  // Fake NO click
-  noBtn.addEventListener("click", () => {
-    card.innerHTML = "<h1>No accepted 💔</h1>";
-    setTimeout(() => location.reload(), 700);
-  });
+  setTimeout(() => {
+    document.getElementById("heartScreen").style.display = "none";
+    document.getElementById("mainScreen").style.display = "flex";
 
-  // YES ❤️
-  yesBtn.addEventListener("click", () => {
-    card.innerHTML = `
-      <h1>Saba said YES 😭💖</h1>
-      <p>Best decision ever 🥹</p>
-
-      <iframe width="300" height="170"
-        src="https://www.youtube.com/embed/IpFX2vq8HKw?autoplay=1"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    `;
-
-    heartExplosion();
-  });
-
-  function heartExplosion() {
-    for (let i = 0; i < 25; i++) {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💖";
-      heart.style.left = Math.random() * window.innerWidth + "px";
-      heart.style.top = window.innerHeight + "px";
-      document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 2000);
-    }
-  }
+    noCount = 0;
+    const noBtn = document.getElementById("noBtn");
+    noBtn.style.display = "inline-block";
+    noBtn.style.transform = "translate(0,0)";
+  }, 2000);
+}
 </script>
 
 </body>
 </html>
+
+ 
