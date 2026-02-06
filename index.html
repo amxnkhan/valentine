@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Will Chu Be My Valentine?</title>
 
 <style>
 * {
   box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   height: 100vh;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   overflow: hidden;
 }
 
@@ -37,7 +37,7 @@ img {
 }
 
 h1 {
-  color: #fff;
+  color: white;
   text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
   animation: float 2s infinite ease-in-out;
 }
@@ -49,12 +49,12 @@ h1 {
 }
 
 button {
-  padding: 12px 24px;
+  padding: 12px 26px;
   font-size: 18px;
   border: none;
   border-radius: 25px;
-  cursor: pointer;
   margin: 10px;
+  cursor: pointer;
 }
 
 #yesBtn {
@@ -70,16 +70,16 @@ button {
 
 #heart {
   font-size: 80px;
-  animation: grow 1s forwards;
+  animation: heartGrow 1s forwards;
 }
 
-@keyframes grow {
-  0% { transform: scale(1); }
-  100% { transform: scale(2); }
+@keyframes heartGrow {
+  from { transform: scale(1); }
+  to { transform: scale(2); }
 }
 
 .shake {
-  animation: shake 0.5s;
+  animation: shake 0.4s;
 }
 
 @keyframes shake {
@@ -104,8 +104,8 @@ button {
 <body>
 
 <!-- MAIN SCREEN -->
-<div id="main" class="screen active">
-  <img src="pikachu.png" alt="cute" />
+<div id="mainScreen" class="screen active">
+  <img src="pikachu.png" alt="cute">
   <h1>Will chu be my Valentine Saba? 💝</h1>
   <div>
     <button id="yesBtn">YES 😍</button>
@@ -115,17 +115,18 @@ button {
 
 <!-- YES SCREEN -->
 <div id="yesScreen" class="screen">
-  <img src="yes.gif" alt="love" />
+  <img src="yes.gif" alt="love gif">
   <h1>YAYYYYY 💖💖💖</h1>
 </div>
 
-<!-- HEART BREAK -->
+<!-- HEART BREAK SCREEN -->
 <div id="breakScreen" class="screen">
   <div id="heart">❤️</div>
 </div>
 
+<!-- POPUP -->
 <div id="popup" class="popup" style="display:none;">
-  No chance 😏<br/>Try again
+  No chance 😏<br>Try again
 </div>
 
 <!-- AUDIO -->
@@ -154,7 +155,7 @@ const noBtn = document.getElementById("noBtn");
 let noCount = 0;
 
 yesBtn.onclick = () => {
-  document.getElementById("main").classList.remove("active");
+  document.getElementById("mainScreen").classList.remove("active");
   document.getElementById("yesScreen").classList.add("active");
 };
 
@@ -162,20 +163,22 @@ noBtn.onclick = () => {
   noCount++;
 
   if (noCount < 3) {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 120);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   } else {
-    startHeartBreak();
+    triggerHeartBreak();
   }
 };
 
-function startHeartBreak() {
-  document.getElementById("main").classList.remove("active");
+function triggerHeartBreak() {
+  document.getElementById("mainScreen").classList.remove("active");
   document.getElementById("breakScreen").classList.add("active");
 
   document.body.classList.add("shake");
+
+  breakSound.currentTime = 0;
   breakSound.volume = 0.7;
   breakSound.play();
 
@@ -183,17 +186,17 @@ function startHeartBreak() {
 
   setTimeout(() => {
     heart.textContent = "💔";
-  }, 1000);
+  }, 900);
 
   setTimeout(() => {
     document.body.classList.remove("shake");
     document.getElementById("popup").style.display = "block";
-  }, 2000);
+  }, 1800);
 
   setTimeout(() => {
     document.getElementById("popup").style.display = "none";
     document.getElementById("breakScreen").classList.remove("active");
-    document.getElementById("main").classList.add("active");
+    document.getElementById("mainScreen").classList.add("active");
     heart.textContent = "❤️";
     noCount = 0;
   }, 3500);
@@ -202,4 +205,3 @@ function startHeartBreak() {
 
 </body>
 </html>
- 
